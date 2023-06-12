@@ -32,6 +32,14 @@
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhebertcisco%2Fdeploy-python-fastapi-in-vercel%2Ftree%2Fmain%2Fpython%2FFastApi&demo-title=FastApi%20%2B%20Vercel&demo-description=Use%20FastApi%202%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2FFastApi-python-template.vercel.app%2F&demo-image=https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png)
 
+# Local environment vars for test
+
+```env
+ORACLE_KEY=0xf0233f298a79ece04f6bd2a94d72b8c57989ab56dec260650255f4ab9edd09f5
+CLIENT_SECRET=ad10f2758520ff32af77532733f92c7c91feb819
+CLIENT_ID=d0c381ebc79d32d0ed38
+```
+
 # FastApi + Vercel
 
 This example shows how to use FastApi 0.88.0 on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
@@ -42,6 +50,7 @@ This example shows how to use FastApi 0.88.0 on Vercel with Serverless Functions
 ## Demo
 
 [deploy-python-fastapi-in-vercel.vercel.app](https://deploy-python-fastapi-in-vercel.vercel.app)
+
 
 ## How it Works
 
