@@ -1,6 +1,6 @@
 import os
 
-from fastapi import FastAPI,HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from web3 import Web3
@@ -9,7 +9,7 @@ from cfx_address import Base32Address
 
 from src.dtos.RawMessageToSignDto import RawMessageToSign
 from src.dtos.ISayHelloDto import ISayHelloDto
-from src.utils import matches
+from src.utils import get_username
 
 from dotenv import load_dotenv
 
@@ -26,6 +26,7 @@ app.add_middleware(
 )
 
 ORACLE_KEY = os.environ["ORACLE_KEY"]
+ORACLE_BATCH_NBR = int(os.environ["ORACLE_BATCH_NBR"])
 
 
 @app.get("/")
@@ -45,29 +46,35 @@ async def hello_message(dto: ISayHelloDto):
 
 @app.post("/sign/{state}")
 async def sign(dto: RawMessageToSign, state: str):
-    print("get")
+    print(f"get request {dto}")
     try:
-        if not matches(dto.code, state, dto.username):
-            raise Exception("username does not match")
-        username_hash = Web3.solidity_keccak(["string"], [dto.username])
+        if dto.batch_nbr != ORACLE_BATCH_NBR:
+            raise Exception(
+                f"this oracle has no permission to authorize batch number {dto.batch_nbr}"
+            )
+        username = get_username(dto.code, state)
+        username_hash = Web3.solidity_keccak(["string"], [username])
         message_hash = Web3.solidity_keccak(
             ["uint128", "bytes32", "address", "address"],
             [
                 dto.batch_nbr,
                 username_hash,
                 Base32Address(dto.core_address).hex_address,
-                dto.evm_address
-            ]
+                dto.evm_address,
+            ],
         )
         signature = Account.signHash(
             message_hash,
             ORACLE_KEY,
         )
-        
+
         return {
-            "v": signature.v,
-            "r": hex(signature.r),
-            "s": hex(signature.s)
+            "signature": {
+                "v": signature.v,
+                "r": hex(signature.r),
+                "s": hex(signature.s),
+            },
+            "username": username,
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=repr(e))
