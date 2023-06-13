@@ -36,6 +36,8 @@
 
 ```env
 ORACLE_KEY=0xf0233f298a79ece04f6bd2a94d72b8c57989ab56dec260650255f4ab9edd09f5
+ORACLE_BATCH_NBR=20896286
+CORE_CONTRACT_ADDRESS=CFXTEST:TYPE.CONTRACT:ACHGW6Y86K619AWAYY47C20PNTDB0Y3PDYJHA6BXRX
 CLIENT_SECRET=ad10f2758520ff32af77532733f92c7c91feb819
 CLIENT_ID=d0c381ebc79d32d0ed38
 ```
@@ -51,7 +53,6 @@ This example shows how to use FastApi 0.88.0 on Vercel with Serverless Functions
 
 [deploy-python-fastapi-in-vercel.vercel.app](https://deploy-python-fastapi-in-vercel.vercel.app)
 
-
 ## How it Works
 
 This example uses the Web Server Gateway Interface (WSGI) with FastApi to enable handling requests on Vercel with Serverless Functions.
@@ -59,6 +60,7 @@ This example uses the Web Server Gateway Interface (WSGI) with FastApi to enable
 ## Running Locally
 
 ### With Docker
+
 ```bash
 # Build the Docker image
 docker build -t deploy-python-fastapi-in-vercel .
@@ -75,6 +77,7 @@ docker run -p 8000:8000 deploy-python-fastapi-in-vercel
 ```bash
 pip install -r requirements.txt
 ```
+
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
