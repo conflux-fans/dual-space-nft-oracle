@@ -19,7 +19,7 @@ def main():
     contract.functions.batchAuthorizeMintPermission(
         ORACLE_BATCH_NBR,
         ["darwintree"],
-        4,
+        [4],
     ).transact().executed()
 
 
