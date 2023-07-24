@@ -3,13 +3,8 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from web3 import Web3
-from eth_account import Account
-from cfx_address import Base32Address
-
 from src.dtos.RawMessageToSignDto import RawMessageToSign
-from src.dtos.ISayHelloDto import ISayHelloDto
-from src.utils import get_username
+from src.utils import get_github_username, sign_username, get_crowdin_username
 
 from dotenv import load_dotenv
 
@@ -29,22 +24,7 @@ ORACLE_KEY = os.environ["ORACLE_KEY"]
 ORACLE_BATCH_NBR = int(os.environ["ORACLE_BATCH_NBR"])
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-
-@app.post("/hello")
-async def hello_message(dto: ISayHelloDto):
-    return {"message": f"Hello {dto.message}"}
-
-
-@app.post("/sign/{state}")
+@app.post("/sign/github/{state}")
 async def sign(dto: RawMessageToSign, state: str):
     print(f"get request {dto}")
     try:
@@ -52,28 +32,34 @@ async def sign(dto: RawMessageToSign, state: str):
             raise Exception(
                 f"this oracle has no permission to authorize batch number {dto.batch_nbr}"
             )
-        username = get_username(dto.code, state)
-        username_hash = Web3.solidity_keccak(["string"], [username])
-        message_hash = Web3.solidity_keccak(
-            ["uint128", "bytes32", "address", "address"],
-            [
-                dto.batch_nbr,
-                username_hash,
-                Base32Address(dto.core_address).hex_address,
-                dto.evm_address,
-            ],
-        )
-        signature = Account.signHash(
-            message_hash,
-            ORACLE_KEY,
+        username = f"github-{get_github_username(dto.code, state)}"
+        signature = sign_username(
+            username, dto.batch_nbr, dto.core_address, dto.evm_address
         )
 
         return {
-            "signature": {
-                "v": signature.v,
-                "r": hex(signature.r),
-                "s": hex(signature.s),
-            },
+            "signature": signature,
+            "username": username,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=repr(e))
+
+
+@app.post("/sign/crowdin/{state}")
+async def sign(dto: RawMessageToSign, state: str):
+    print(f"get request {dto}")
+    try:
+        if dto.batch_nbr != ORACLE_BATCH_NBR:
+            raise Exception(
+                f"this oracle has no permission to authorize batch number {dto.batch_nbr}"
+            )
+        username = f"crowdin-{get_crowdin_username(dto.code, state)}"
+        signature = sign_username(
+            username, dto.batch_nbr, dto.core_address, dto.evm_address
+        )
+
+        return {
+            "signature": signature,
             "username": username,
         }
     except Exception as e:

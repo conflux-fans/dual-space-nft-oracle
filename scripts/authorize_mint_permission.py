@@ -18,7 +18,7 @@ def main():
     # this will not be applied in official env
     contract.functions.batchAuthorizeMintPermission(
         ORACLE_BATCH_NBR,
-        ["darwintree"],
+        ["crowdin-darwintree"],
         [4],
     ).transact().executed()
 
