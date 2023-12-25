@@ -1,4 +1,6 @@
+import json
 import os
+from typing import List
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,14 +23,14 @@ app.add_middleware(
 )
 
 ORACLE_KEY = os.environ["ORACLE_KEY"]
-ORACLE_BATCH_NBR = int(os.environ["ORACLE_BATCH_NBR"])
+ALLOWED_ORACLE_BATCH_NBRS: List[int] = json.loads(os.environ["ALLOWED_ORACLE_BATCH_NBRS"])
 
 
 @app.post("/sign/github/{state}")
-async def sign(dto: RawMessageToSign, state: str):
+async def sign_github(dto: RawMessageToSign, state: str):
     print(f"get request {dto}")
     try:
-        if dto.batch_nbr != ORACLE_BATCH_NBR:
+        if dto.batch_nbr not in ALLOWED_ORACLE_BATCH_NBRS:
             raise Exception(
                 f"this oracle has no permission to authorize batch number {dto.batch_nbr}"
             )
@@ -46,10 +48,10 @@ async def sign(dto: RawMessageToSign, state: str):
 
 
 @app.post("/sign/crowdin/{state}")
-async def sign(dto: RawMessageToSign, state: str):
+async def sign_crowdin(dto: RawMessageToSign, state: str):
     print(f"get request {dto}")
     try:
-        if dto.batch_nbr != ORACLE_BATCH_NBR:
+        if dto.batch_nbr != ALLOWED_ORACLE_BATCH_NBRS:
             raise Exception(
                 f"this oracle has no permission to authorize batch number {dto.batch_nbr}"
             )
