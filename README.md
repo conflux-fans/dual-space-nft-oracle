@@ -35,10 +35,10 @@
 # Local environment vars for test
 
 ```env
-ORACLE_KEY='0x4f29dd2ae711752ff3db97341b136926dc69bfc52f375c02b54d6d26cc2fe6f4'
-AUTHORIZER_KEY='0x3ebcced59d9709a245a385c17e0dd874a5d4f0162a6d9c6f14c3ca16819c6f88'
-ORACLE_BATCH_NBR=20484047
-CORE_CONTRACT_ADDRESS=CFXTEST:TYPE.CONTRACT:ACCAVY7U2ST7ECKDN5V5RWYHHG9XVEYVRANCKZ38DK
+ORACLE_KEY=0x6fc410e13e76c5d55e059641cd2fa130cdcdad1432fe3da925c088f9f87b8dda
+AUTHORIZER_KEY='0x6fc410e13e76c5d55e059641cd2fa130cdcdad1432fe3da925c088f9f87b8dda'
+ALLOWED_ORACLE_BATCH_NBRS=[20231213]
+CORE_CONTRACT_ADDRESS=CFXTEST:TYPE.CONTRACT:ACGJ7TM0NF8WWBFDFGGMUZVN7Y75R347FJ4VTFGF27
 CLIENT_SECRET=ad10f2758520ff32af77532733f92c7c91feb819
 CLIENT_ID=d0c381ebc79d32d0ed38
 CROWDIN_CLIENT_ID=Twl7fLNfVagmoEUiWPEO
@@ -87,26 +87,6 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 Your FastApi application is now available at `http://localhost:8000`.
-
-## One-Click Deploy
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhebertcisco%2Fdeploy-python-fastapi-in-vercel%2Ftree%2Fmain%2Fpython%2FFastApi&demo-title=FastApi%20%2B%20Vercel&demo-description=Use%20FastApi%202%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2FFastApi-python-template.vercel.app%2F&demo-image=https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png)
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](issues).
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-Or buy me a coffee 🙌🏾
-
-<a href="https://www.buymeacoffee.com/hebertcisco">
-    <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hebertcisco&button_colour=FFDD00&font_colour=000000&font_family=Inter&outline_colour=000000&coffee_colour=ffffff" />
-</a>
 
 ## 📝 License
 
