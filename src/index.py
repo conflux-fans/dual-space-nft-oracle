@@ -51,7 +51,7 @@ async def sign_github(dto: RawMessageToSign, state: str):
 async def sign_crowdin(dto: RawMessageToSign, state: str):
     print(f"get request {dto}")
     try:
-        if dto.batch_nbr != ALLOWED_ORACLE_BATCH_NBRS:
+        if dto.batch_nbr not in ALLOWED_ORACLE_BATCH_NBRS:
             raise Exception(
                 f"this oracle has no permission to authorize batch number {dto.batch_nbr}"
             )
