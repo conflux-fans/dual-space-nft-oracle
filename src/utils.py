@@ -65,7 +65,7 @@ def get_github_username(code: str, state: str) -> str:
             "Accept": "application/json",
         },
     )
-    return user_response.json()["login"]
+    return user_response.json()["login"].lower()
 
 def get_crowdin_username(code: str, state: str) -> str:
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
@@ -94,4 +94,4 @@ def get_crowdin_username(code: str, state: str) -> str:
             "Accept": "application/json",
         },
     )
-    return user_response.json()["data"]["username"]
+    return user_response.json()["data"]["username"].lower()
